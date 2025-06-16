@@ -1,1 +1,1 @@
-"# CommanderPrecons" The data was sourced from https://www.moxfield.com/users/WizardsOfTheCoast
+CommanderPrecons" The data was sourced from https://www.moxfield.com/users/WizardsOfTheCoast
