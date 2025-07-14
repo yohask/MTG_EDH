@@ -218,10 +218,6 @@ def train_random_forest(X_train, y_train, n_estimators=100, max_depth=None):
     model = RandomForestRegressor(n_estimators=n_estimators, max_depth=max_depth)
     model.fit(X_train, y_train)
     return model
-    from sklearn.ensemble import RandomForestRegressor
-    model = RandomForestRegressor()
-    model.fit(X_train, y_train)
-    return model
 
 def train_catboost(X_train, y_train, iterations=100, depth=6, learning_rate=0.1):
     """
@@ -240,10 +236,6 @@ def train_catboost(X_train, y_train, iterations=100, depth=6, learning_rate=0.1)
     """
     from catboost import CatBoostRegressor
     model = CatBoostRegressor(silent=True, iterations=iterations, depth=depth, learning_rate=learning_rate)
-    model.fit(X_train, y_train)
-    return model
-    from catboost import CatBoostRegressor
-    model = CatBoostRegressor(silent=True)
     model.fit(X_train, y_train)
     return model
 
@@ -749,11 +741,6 @@ def train_content(X_features: np.ndarray, n_neighbors=10) -> NearestNeighbors:
     """
     n_samples = X_features.shape[0]
     n_neighbors = min(n_neighbors, n_samples)
-    model = NearestNeighbors(n_neighbors=n_neighbors, metric='cosine')
-    model.fit(X_features)
-    return model
-    n_samples = X_features.shape[0]
-    n_neighbors = min(10, n_samples)
     model = NearestNeighbors(n_neighbors=n_neighbors, metric='cosine')
     model.fit(X_features)
     return model
