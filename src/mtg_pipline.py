@@ -75,9 +75,8 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 logger.info("Imports and logger are ready.")
 
-# === End imports and logger setup ===
 
-# 2) LATENT FEATURE EXTRACTION (PCA & CLUSTERING)
+# 1) LATENT FEATURE EXTRACTION (PCA & CLUSTERING)
 def extract_latent_features(X: np.ndarray, n_components=10):
     """
     Reduce dimensionality with PCA and cluster with KMeans.
@@ -97,7 +96,7 @@ def extract_latent_features(X: np.ndarray, n_components=10):
     cluster_labels = KMeans(n_clusters=5, random_state=42).fit_predict(X_pca)
     return X_pca, cluster_labels
 
-# 3) EXPLORATORY DATA ANALYSIS (CORRELATIONS & NETWORKS)
+# 2) EXPLORATORY DATA ANALYSIS (CORRELATIONS & NETWORKS)
 def run_eda(df: pd.DataFrame, output_dir: str):
     """
     Run exploratory data analysis:
@@ -167,7 +166,7 @@ def run_eda(df: pd.DataFrame, output_dir: str):
         plt.savefig(os.path.join(output_dir, 'cooccurrence_graph.png'))
         plt.close()
 
-# 4) UNSUPERVISED CLUSTERING OF DECK THEMES
+# 3) UNSUPERVISED CLUSTERING OF DECK THEMES
 def cluster_deck_themes(df: pd.DataFrame, output_dir: str):
     """
     Cluster deck themes using DBSCAN and visualize with UMAP.
@@ -200,7 +199,7 @@ def cluster_deck_themes(df: pd.DataFrame, output_dir: str):
     plt.savefig(os.path.join(output_dir, 'deck_clusters.png'))
     plt.close()
 
-# 5) ADDITIONAL ENSEMBLE & NEURAL MODELS
+# 4) ADDITIONAL ENSEMBLE & NEURAL MODELS
 def train_random_forest(X_train, y_train, n_estimators=100, max_depth=None):
     """
     Train a Random Forest regressor for deck/card prediction tasks.
@@ -276,7 +275,7 @@ def train_mlp_autoencoder(X: np.ndarray, epochs=50, batch_size=32):
     autoencoder.fit(X, X, epochs=50, batch_size=32, verbose=0)
     return autoencoder, encoder
 
-# 6) HYPERPARAMETER TUNING WITH OPTUNA
+# 5) HYPERPARAMETER TUNING WITH OPTUNA
 def tune_hyperparameters(X_train, y_train, model_type: str, n_trials=50) -> dict:
     """
     Tune model hyperparameters using Optuna for XGBoost, RF, CatBoost, or MLP.
@@ -347,7 +346,7 @@ def tune_hyperparameters(X_train, y_train, model_type: str, n_trials=50) -> dict
     study.optimize(objective, n_trials=50)
     return study.best_params
 
-# 7) LIME EXPLAINABILITY
+# 6) LIME EXPLAINABILITY
 def explain_with_lime(model, X_sample: np.ndarray, feature_names: list, output_dir: str):
     """
     Generate LIME explanations for model predictions and save HTML files.
@@ -370,7 +369,7 @@ def explain_with_lime(model, X_sample: np.ndarray, feature_names: list, output_d
         exp = explainer.explain_instance(X_sample[idx], model.predict)
         exp.save_to_file(os.path.join(output_dir, f'lime_explanation_{i}.html'))
 
-# 8) LEARNING CURVES & STABILITY ANALYSIS
+# 7) LEARNING CURVES & STABILITY ANALYSIS
 def plot_learning_curves(estimator, X, y, output_dir: str):
     """
     Plot learning curves and RMSE variance for estimator to assess model stability.
@@ -409,7 +408,7 @@ def plot_learning_curves(estimator, X, y, output_dir: str):
     var_rmse = np.var(rmses)
     print(f'Variance of RMSE across folds: {var_rmse:.4f}')
 
-# 9) SENTIMENT & TOPIC EVOLUTION
+# 8) SENTIMENT & TOPIC EVOLUTION
 def analyze_design_corpus(corpus_dir: str, output_dir: str):
     """
     Analyze design corpus for sentiment and topic evolution using LDA and VADER.
@@ -479,7 +478,7 @@ def analyze_design_corpus(corpus_dir: str, output_dir: str):
     pd.DataFrame(topic_words).to_csv(os.path.join(output_dir, 'lda_topics.csv'), index=False)
     # No return, just writes files
 
-# 11) DESIGN TREND ANALYSIS
+# 9) DESIGN TREND ANALYSIS
 def run_design_trend_analysis(df: pd.DataFrame, output_dir: str):
     """
     Analyze design trends over time (CMC, keyword density, topics) and save plots/CSVs.
@@ -540,7 +539,7 @@ def run_design_trend_analysis(df: pd.DataFrame, output_dir: str):
     grouped.to_csv(os.path.join(output_dir, 'trend_stats.csv'), index=False)
     # No return, just writes files
 
-# 12) MATHEMATICAL PROGRAMMING DEEP-DIVE
+# 10) MATHEMATICAL PROGRAMMING DEEP-DIVE
 def solve_deck_lp(card_features: pd.DataFrame, constraints: dict) -> dict:
     """
     Solve deck selection as a linear program (LP) using pulp.
@@ -582,7 +581,7 @@ def solve_deck_lp(card_features: pd.DataFrame, constraints: dict) -> dict:
         'objective_value': pulp.value(prob.objective)
     }
 
-# 1) DATA LOADING
+# 11) DATA LOADING
 def load_data(path: str) -> pd.DataFrame:
     """
     Load CSV data and print summary stats for inspection.
@@ -600,7 +599,7 @@ def load_data(path: str) -> pd.DataFrame:
     print(df.describe(include='all'))
     return df
 
-# 2) PREPROCESSING PIPELINE
+# 12) PREPROCESSING PIPELINE
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import FunctionTransformer
 numeric_features = ['power', 'toughness', 'cmc']
@@ -615,7 +614,7 @@ preprocessor = ColumnTransformer([
     ('text', TfidfVectorizer(max_features=5000, ngram_range=(1,3)), text_features)
 ])
 
-# 3) FEATURE ENGINEERING
+# 13) FEATURE ENGINEERING
 def add_engineered_features(df: pd.DataFrame) -> pd.DataFrame:
     """
     Add engineered features (days since release, keyword count) for downstream analysis.
@@ -640,7 +639,7 @@ def add_engineered_features(df: pd.DataFrame) -> pd.DataFrame:
     df['keyword_count'] = df['info.oracle_text'].apply(count_keywords)
     return df
 
-# 4) MODEL TRAINING
+# 14) MODEL TRAINING
 def train_xgb(X_train, y_train, params: dict) -> xgb.Booster:
     """
     Train XGBoost regressor for deck/card prediction tasks.
@@ -681,7 +680,7 @@ def evaluate_regression(model, X_test, y_test) -> dict:
         'r2': r2_score(y_test, y_pred)
     }
 
-# 5) SHAP EXPLAINABILITY
+# 15) SHAP EXPLAINABILITY
 def explain_shap(model, X_sample, output_dir: str):
     """
     Generate SHAP summary plots for model to interpret feature importance.
@@ -705,7 +704,7 @@ def explain_shap(model, X_sample, output_dir: str):
     plt.savefig(os.path.join(output_dir, 'shap_summary_beeswarm.png'))
     plt.close()
 
-# 6) COLLABORATIVE FILTERING
+# 16) COLLABORATIVE FILTERING
 def train_cf(interactions: pd.DataFrame) -> object:
     """
     Train collaborative filtering model (ALS or Surprise) for deck recommendations.
@@ -735,7 +734,7 @@ def train_cf(interactions: pd.DataFrame) -> object:
     else:
         raise ImportError("No collaborative filtering library available. Install 'implicit' or 'surprise'.")
 
-# 7) CONTENT-BASED RECOMMENDER
+# 17) CONTENT-BASED RECOMMENDER
 def train_content(X_features: np.ndarray, n_neighbors=10) -> NearestNeighbors:
     """
     Train content-based NearestNeighbors recommender for deck recommendations.
@@ -759,7 +758,7 @@ def train_content(X_features: np.ndarray, n_neighbors=10) -> NearestNeighbors:
     model.fit(X_features)
     return model
 
-# 8) BLENDING & PREDICTION
+# 18) BLENDING & PREDICTION
 def blend_recommendations(cf_model, content_model, user_id, deck_pool, alpha=0.5) -> List[Any]:
     """
     Blend collaborative and content-based recommendations for final deck ranking.
@@ -797,7 +796,7 @@ def blend_recommendations(cf_model, content_model, user_id, deck_pool, alpha=0.5
     top_idx = np.argsort(blended)[::-1][:10]
     return [deck_pool[i] for i in top_idx]
 
-# 9) EVALUATION METRICS
+# 19) EVALUATION METRICS
 def evaluate_recs(true_items: List, pred_items: List, k=10) -> dict:
     """
     Evaluate recommendations with precision@k and NDCG@k for ranking quality.
@@ -824,7 +823,7 @@ def evaluate_recs(true_items: List, pred_items: List, k=10) -> dict:
         'ndcg@k': ndcg_at_k(true_items, pred_items, k)
     }
 
-# 10) CLI DRIVER
+# 20) CLI DRIVER
 def main():
     """
     Main CLI driver for MTG pipeline.
