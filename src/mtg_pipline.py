@@ -4,22 +4,30 @@ MTG Deck Analysis & Recommendation Pipeline
 This module provides a comprehensive pipeline for analyzing Magic: The Gathering deck data, including feature engineering, clustering, exploratory analysis, model training, explainability, recommendation, and optimization.
 
 Sections:
-    1. Embedding-Based Feature Construction
-    2. Latent Feature Extraction (PCA & Clustering)
-    3. Exploratory Data Analysis (Correlations & Networks)
-    4. Unsupervised Clustering of Deck Themes
-    5. Ensemble & Neural Models
-    6. Hyperparameter Tuning
-    7. Model Explainability (LIME, SHAP)
-    8. Learning Curves & Stability Analysis
-    9. Sentiment & Topic Evolution
-    10. CLI Driver & Example Runner
-    11. Design Trend Analysis
-    12. Mathematical Programming Deep-Dive
+    1. Latent Feature Extraction (PCA & Clustering)
+    2. Exploratory Data Analysis (Correlations & Networks)
+    3. Unsupervised Clustering of Deck Themes
+    4. Ensemble & Neural Models
+    5. Hyperparameter Tuning with Optuna
+    6. LIME Explainability
+    7. Learning Curves & Stability Analysis
+    8. Sentiment & Topic Evolution
+    9. Design Trend Analysis
+    10. Mathematical Programming Deep-Dive
+    11. Data Loading
+    12. Preprocessing Pipeline
+    13. Feature Engineering
+    14. Model Training
+    15. SHAP Explainability
+    16. Collaborative Filtering
+    17. Content-Based Recommender
+    18. Blending & Prediction
+    19. Evaluation Metrics
+    20. CLI Driver
 
 Usage:
     Run as a CLI tool or import functions for custom analysis.
-    See the main() and run_examples() functions for entry points.
+    See the main() function for the entry point.
 """
 
 # === All imports and logger setup below ===
